@@ -1,0 +1,8 @@
+global_costmap: 
+
+  global_frame: map # set the world coordinate
+  robot_base_frame: base_footprint # set the body coordinate
+  update_frequency: 5.0 # set the update freq.  of costmap
+  publish_frequency: 5.0 # set the publish freq. of update
+  transform_tolerance: 1.0 # set the timeout time of waiting coordinate transformation
+  static_map: true # use a map to globally initialize the costmap

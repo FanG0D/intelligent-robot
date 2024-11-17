@@ -1,0 +1,80 @@
+<launch>
+    <arg name="scan_topic" default="scan" />
+
+    <node pkg="gmapping" type="slam_gmapping" name="slam_gmapping" output="screen"
+        clear_params="true">
+        <param name="base_frame" value="base_footprint" />
+        <param name="odom_frame" value="odom" />
+        <param name="map_update_interval" value="1.0" />
+
+        <param name="maxRange" value="20.0" />
+        <param name="maxUrange" value="8.0" />
+        <param name="sigma" value="0.05" />
+        <param name="kernelSize" value="1" />
+        <param name="lstep" value="0.05" />
+        <param name="astep" value="0.05" />
+        <param name="iterations" value="5" />
+        <param name="lsigma" value="0.075" />
+        <param name="ogain" value="3.0" />
+        <param name="lskip" value="0" />
+        <param name="srr" value="0.01" />
+        <param name="srt" value="0.02" />
+        <param name="str" value="0.01" />
+        <param name="stt" value="0.02" />
+        <param name="linearUpdate" value="0.5" />
+        <param name="angularUpdate" value="0.436" />
+        <param name="temporalUpdate" value="-1.0" />
+        <param name="resampleThreshold" value="0.5" />
+        <param name="particles" value="50" />
+        <param name="xmin" value="-1.0" />
+        <param name="ymin" value="-1.0" />
+        <param name="xmax" value="1.0" />
+        <param name="ymax" value="1.0" />
+        <param name="delta" value="0.05" />
+
+        <param name="llsamplerange" value="0.01" />
+        <param name="llsamplestep" value="0.01" />
+        <param name="lasamplerange" value="0.005" />
+        <param name="lasamplestep" value="0.005" />
+        <remap from="/scan" to="$(arg scan_topic)" />
+    </node>
+
+    <param name="robot_description" command="$(find xacro)/xacro $(arg model)" />
+
+
+    <node pkg="joint_state_publisher_gui" name="joint_state_publisher_gui"
+        type="joint_state_publisher_gui" />
+
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"
+        output="screen">
+        <param name="publish_frequency" type="double" value="30.0" />
+    </node>
+
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find urdf_learning)/config/car_chassis.rviz"
+        required="true" />
+
+    <arg name="paused" default="false" />
+    <arg name="use_sim_time" default="true" />
+    <arg name="gui" default="true" />
+    <arg name="headless" default="false" />
+    <arg name="debug" default="false" />
+    <arg name="model" default="$(find urdf_learning)/urdf/car_robot_rplidar.xacro" />
+    <arg name="rvizconfig" default="$(find urdf_learning)/config/car_robot.rviz" />
+
+
+    <include file="$(find gazebo_ros)/launch/empty_world.launch">
+        <arg name="debug" value="$(arg debug)" />
+        <arg name="gui" value="$(arg gui)" />
+        <arg name="paused" value="$(arg paused)" />
+        <arg name="use_sim_time" value="$(arg use_sim_time)" />
+        <arg name="headless" value="$(arg headless)" />
+        <arg name="world_name" value="$(find ros_2dnav_learning)/world/world1.world" />
+    </include>
+
+    <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
+        args="-param robot_description -urdf -model car_robot_2diff" />
+
+
+    <node name="teleop_twist_keyboard" pkg="teleop_twist_keyboard" type="teleop_twist_keyboard.py" />
+
+</launch>
