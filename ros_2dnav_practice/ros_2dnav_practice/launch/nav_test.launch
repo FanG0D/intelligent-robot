@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<launch>
+
+	<arg name="map" default="map.yaml"/>
+	<node name="map_server" pkg="map_server" type="map_server" args="$(find ros_2dnav_practice)/map/$(arg map)"/>
+	<include file="$(find ros_2dnav_practice)/launch/turtlebot4_test.launch"/>
+	<include file="$(find ros_2dnav_practice)/launch/amcl_diff.launch"/>
+	<include file="$(find ros_2dnav_practice)/launch/move_base.launch" />
+
+</launch>
