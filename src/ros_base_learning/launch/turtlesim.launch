@@ -1,0 +1,16 @@
+<launch>
+    <!-- 启动 turtlesim 节点，模拟一个海龟机器人，并将该节点命名为 turtle1 -->
+    <node pkg="turtlesim" type="turtlesim_node" name="turtle1">
+        <!-- 重映射话题，将 /turtle1/cmd_vel 重映射为 /cmd_vel_modified，便于自定义控制 -->
+        <remap from="/turtle1/cmd_vel" to="/cmd_vel_modified"/>
+    </node>
+    <!-- 启动自定义节点，程序包名为 ros_base_learning，执行文件为 runner，节点名称为 transform -->
+    <node pkg="ros_base_learning" type="runner" name="transform" output="screen">
+    </node>
+    <!-- 启动 turtlesim 自带的键盘控制节点，用于手动控制海龟移动 -->
+    <node pkg="turtlesim" type="turtle_teleop_key" name="teleop_key" output="screen">
+    </node>
+    <!-- 定义全局参数 scale_linear 和 scale_angular，用于控制线性和角速度的缩放 -->
+    <param name="scale_linear" value="1" type="double"/>
+    <param name="scale_angular" value="1" type="double"/>
+</launch>

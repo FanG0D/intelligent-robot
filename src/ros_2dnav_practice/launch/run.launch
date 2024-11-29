@@ -1,0 +1,18 @@
+<launch>
+    <!--参数配置，运动是否只向前，flase 则表示小车可以后退操作-->
+    <arg name="move_forward_only" default="true" />
+
+    <node pkg="tf2_ros" type="static_transform_publisher" name="base_link_rplidar_link_broadcaster"
+        args="0.0 0.0 0.1 1.5707963267949 0.0 0.0 base_link rplidar_link" />
+
+    <arg name="rvizconfig" default="$(find ros_2dnav_practice)/config/turtlebot4_test.rviz" />
+
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(arg rvizconfig)" />
+
+    <include file="$(find ros_2dnav_practice)/launch/gmapping.launch" />
+
+    <include file="$(find ros_2dnav_practice)/launch/move_base.launch" />
+
+    <include file="$(find explore_lite)/launch/explore.launch" />
+
+</launch>

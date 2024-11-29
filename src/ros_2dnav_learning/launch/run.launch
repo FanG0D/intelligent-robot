@@ -1,0 +1,16 @@
+<launch>
+    <!--参数配置，运动是否只向前，flase 则表示小车可以后退操作-->
+    <arg name="move_forward_only" default="true" />
+    
+    <!--启动gmapping建图-->
+    <include file="$(find ros_2dnav_learning)/launch/car_robot_rplidar1.launch" />
+
+    <!--启动move_base-->
+    <include file="$(find ros_2dnav_learning)/launch/move_base1.launch">
+        <arg name="move_forward_only" value="$(arg move_forward_only)" />
+    </include>
+
+    <!--启动explore_costmap-->
+    <include file="$(find explore_lite)/launch/explore.launch" />
+
+</launch>

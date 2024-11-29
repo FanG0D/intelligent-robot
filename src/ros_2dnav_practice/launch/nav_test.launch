@@ -1,0 +1,19 @@
+<launch>
+    <node pkg="tf2_ros" type="static_transform_publisher" name="base_link_rplidar_link_broadcaster"
+        args="0.0 0.0 0.1 1.5707963267949 0.0 0.0 base_link rplidar_link"/>
+    <arg name="rvizconfig" default="$(find ros_2dnav_practice)/config/turtlebot4_test.rviz"/>
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(arg rvizconfig)"/>
+
+    <!-- 设置地图的配置文件 -->
+    <arg name="map" default="map.yaml" />
+
+    <!-- 运行地图服务器，并且加载设置的地图-->
+    <node name="map_server" pkg="map_server" type="map_server" args="$(find ros_2dnav_practice)/map/$(arg map)"/>
+    
+    <!-- 启动AMCL节点 -->
+    <include file="$(find ros_2dnav_practice)/launch/amcl.launch" />
+
+    <!-- 运行move_base节点 -->
+    <include file="$(find ros_2dnav_practice)/launch/move_base.launch" />
+
+</launch>

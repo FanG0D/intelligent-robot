@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<robot name="car_robot_rplidar" xmlns:xacro="http://ros.org/wiki/xacro">
+    <xacro:include filename="$(find urdf_learning)/urdf/car_chassis_2diff_gazebo.xacro" />
+    <xacro:include filename="$(find urdf_learning)/urdf/rplidar_gazebo.xacro" />
+
+    <xacro:car_chassis_2diff />
+    <xacro:rplidar_A1M8 />
+
+    <joint name="rplidar_joint" type="fixed">
+        <origin xyz="0 0 0.08" rpy="0 0 1.570796326795" />
+        <parent link="base_link" />
+        <child link="laser_link" />
+    </joint>
+
+</robot>

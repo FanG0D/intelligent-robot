@@ -1,0 +1,66 @@
+<launch>
+    <!-- 雷达话题 -->
+    <arg name="scan_topic" default="/scan"/>
+
+    <node pkg="gmapping" type="slam_gmapping" name="slam_gmapping" output="screen" clear_params="true">
+        <!-- 机器人基座坐标系 -->
+        <param name="base_frame" value="base_link"/>
+        <!-- 里程计坐标系 -->
+        <param name="odom_ frame" value="odom"/>
+        <!-- 地图更新频率，每秒 -->
+        <param name="map_update_interval" value="0.5"/>
+        <!-- 传感器最大范围 -->
+        <param name="maxRange" value="20.0"/>
+        <!-- 探测最大可用范围，光束可达范围 -->
+        <param name="maxUrange" value="16.0"/>
+        <!-- 标准匹配差，用作结束点匹配 -->
+        <param name="sigma" value="0.05"/>
+        <!-- 在内核中寻找一个对应 -->
+        <param name="kernelSize" value="1"/>
+        <!-- 平移优化步长 -->
+        <param name="lstep" value="0.05"/>
+        <!-- 旋转优化步长 -->
+        <param name="astep" value="0.05"/>
+        <!-- 扫描匹配迭代步数 -->
+        <param name="iterations" value="5"/>
+        <!-- 用于扫描匹配的激光标准差 -->
+        <param name="lsigma" value="0.075"/>
+        <!-- 似然估计为平滑采样影响使用的gain，评估似然的增益 -->
+        <param name="ogain" value="3.0"/>
+        <!-- 每次扫描跳过的光束数 -->
+        <param name="lskip" value="0"/>
+        <!-- 平移时里程误差作为平移函数 -->
+        <param name="srr" value="0.1"/>
+        <!-- 平移时里程误差作为旋转函数 -->
+        <param name="srt" value="0.2"/>
+        <!-- 旋转时里程误差作为平移函数 -->
+        <param name="str" value="0.1"/>
+        <!-- 旋转时里程误差作为旋转函数 -->
+        <param name="stt" value="0.2"/>
+        <!-- 机器人平移这么远，处理一次扫描 -->
+        <param name="linearUpdate" value="0.8"/>
+        <!-- 机器人旋转这个角度，处理一次扫描 -->
+        <param name="angularUpdate" value="0.5"/>
+        <!-- 如果最新扫描处理比更新慢，则处理一次扫描 -->
+        <param name="temporalUpdate" value="3.0"/>
+        <!-- 基于重采样门限的Neff -->
+        <param name="resampleThreshold" value="0.5"/>
+        <!-- 滤波器粒子数目 -->
+        <param name="particles" value="30"/>
+        <!-- 地图初始尺寸 -->
+        <param name="xmin" value="-4.0"/>
+        <param name="ymin" value="-4.0"/>
+        <param name="xmax" value="4.0"/>
+        <param name="ymax" value="4.0"/>
+        <!-- 地图分辨率 -->
+        <param name="delta" value="0.05"/>
+        <!-- 用于似然计算的平移采样距离 -->
+        <param name="llsamplerange" value="0.01"/>
+        <!-- 用于似然计算的平移采样步长 -->
+        <param name="llsamplestep" value="0.01"/>
+        <!-- 用于似然计算的角度采样范围 -->
+        <param name="lasamplerange" value="0.005"/>
+        <param name="lasamplestep" value="0.005"/>
+        <remap from="/scan" to="$(arg scan_topic)"/>
+    </node>
+</launch>
