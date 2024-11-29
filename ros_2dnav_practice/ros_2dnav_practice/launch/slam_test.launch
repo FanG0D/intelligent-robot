@@ -1,5 +1,0 @@
-<?xml version="1.0"?>
-<launch>
-    <include file="$(find ros_2dnav_practice)/launch/turtlebot4_test.launch"/>
-    <include file="$(find ros_2dnav_practice)/launch/gmapping.launch"/>
-</launch>
